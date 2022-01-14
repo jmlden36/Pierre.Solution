@@ -59,7 +59,7 @@ h4, h3 {
 }
 
 .bottom-link-stack {
-  display: list-item;
+  display: list-flavor;
   margin-right: .75em;
   margin-top: 3px;
 }
