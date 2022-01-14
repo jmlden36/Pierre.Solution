@@ -1,0 +1,24 @@
+@using Pierre.Models;
+@model Pierre.Models.Flavor
+
+@{
+  List<Treat> treats = ViewData["treats"] as List<Treat>;
+}
+
+<h4>add @Html.DisplayFor(model => model.Name) to a treat</h4>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.FlavorId)
+  @if (treats.Count == 0)
+  {
+    <h5>There are currently no treats</h5>
+  }
+  else
+  {
+  @Html.Label("select treat")
+  @Html.DropDownList("TreatId")
+
+  <input type="submit" value="Save">
+  }
+}

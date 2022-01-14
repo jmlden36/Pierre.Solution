@@ -35,7 +35,7 @@ namespace Pierre.Controllers
     }
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult> Create(Flavor flavor, int TreatId)
+    public ActionResult Create(Flavor flavor, int TreatId)
     {
       _db.Flavors.Add(flavor);
       if (TreatId != 0)
@@ -54,10 +54,8 @@ namespace Pierre.Controllers
     }
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult> Edit(Flavor flavor, int TreatId)
+    public ActionResult Edit(Flavor flavor, int TreatId)
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
       if (TreatId != 0)
       {
         _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
@@ -80,10 +78,8 @@ namespace Pierre.Controllers
     }
     [Authorize]
     [HttpPost, ActionName("Delete")]
-    public async Task<ActionResult> DeleteConfirmed(int id)
+    public ActionResult DeleteConfirmed(int id)
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       _db.Flavors.Remove(thisFlavor);
       _db.SaveChanges();
@@ -98,10 +94,8 @@ namespace Pierre.Controllers
     }
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult> AddTreat(Flavor flavor, int TreatId)
+    public ActionResult AddTreat(Flavor flavor, int TreatId)
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
       if (TreatId != 0)
       {
         _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
@@ -111,10 +105,8 @@ namespace Pierre.Controllers
     }
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult> DeleteTreat(int joinId)
+    public ActionResult DeleteTreat(int joinId)
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
       var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
       _db.FlavorTreat.Remove(joinEntry);
       return RedirectToAction("Index");
