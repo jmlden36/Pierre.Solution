@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using ToDoList.Models;
+using Pierre.Models;
 using System.Threading.Tasks;
 using Pierre.ViewModels;
 
@@ -14,7 +14,7 @@ namespace Pierre.Controllers
     public AccountController (UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, PierreContext db)
     {
       _userManager = userManager;
-      _signtInManager = signInManager;
+      _signInManager = signInManager;
       _db = db;
     }
     public ActionResult Index()
