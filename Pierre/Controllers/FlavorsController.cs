@@ -37,6 +37,7 @@ namespace Pierre.Controllers
     public ActionResult Create(Flavor flavor, int TreatId)
     {
       _db.Flavors.Add(flavor);
+      _db.SaveChanges();
       if (TreatId != 0)
       {
         _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });

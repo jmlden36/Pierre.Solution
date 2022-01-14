@@ -9,7 +9,7 @@
   @Html.HiddenFor(model => model.FlavorId)
 
   @Html.LabelFor(model => model.Name)
-  @Html.EditorFor(model => model.Name)
+  @Html.EditorFor(model => model.Name, new {@required="required"})
 
   @Html.Label("Select Treat")
   @Html.DropDownList("TreatId")

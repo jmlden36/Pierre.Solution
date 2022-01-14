@@ -5,7 +5,7 @@
 @using (Html.BeginForm())
 {
     @Html.LabelFor(model => model.TreatName)
-    @Html.TextBoxFor(model => model.TreatName)
+    @Html.TextBoxFor(model => model.TreatName, new {@required="required"})
 
     @Html.Label("Select flavor")
     @Html.DropDownList("FlavorId")
