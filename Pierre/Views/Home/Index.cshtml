@@ -1,0 +1,39 @@
+@using System.Collections.Generic;
+@using Pierre.Models;
+
+@{
+  List<Treat> treats = ViewData["treats"] as List<Treat>;
+}
+
+@{
+  List<Flavor> flavors = ViewData["flavors"] as List<Flavor>;
+}
+
+<h3>All Treats</h3>
+</br>
+@if(treats.Count == 0)
+{
+  <h4>There are no treats</h4>
+}
+else
+{
+  @foreach (Treat treat in treats)
+  {
+    <li class="bottom-link">@Html.ActionLink($"{@treat.TreatName}", "Details", "treats", new { id = treat.TreatId })</li>
+  }
+}
+</br>
+</br>
+</br>
+<h3>All Flavors</h3>
+@if(flavors.Count == 0)
+{
+  <h4>There are no flavors</h4>
+}
+else
+{
+  @foreach (Flavor flavor in flavors)
+  {
+    <li class="bottom-link">@Html.ActionLink($"{@flavor.Name}", "Details", "flavors", new { id = flavor.FlavorId })</li>
+  }
+}
