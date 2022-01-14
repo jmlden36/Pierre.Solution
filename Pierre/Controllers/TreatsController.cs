@@ -38,6 +38,7 @@ namespace Pierre.Controllers
     public ActionResult Create(Treat treat, int FlavorId)
     {
       _db.Treats.Add(treat);
+      _db.SaveChanges();
       if (FlavorId != 0)
       {
         _db.FlavorTreat.Add(new FlavorTreat() { FlavorId = FlavorId, TreatId = treat.TreatId });
@@ -64,7 +65,6 @@ namespace Pierre.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-    [Authorize]
     public ActionResult Details(int id)
     {
       Treat thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
