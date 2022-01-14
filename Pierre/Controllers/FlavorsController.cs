@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Pierre.Controllers
 {
-  [Authorize]
+  // [Authorize]
   public class FlavorsController : Controller
   {
     private readonly PierreContext _db;
@@ -21,15 +21,13 @@ namespace Pierre.Controllers
       _userManager = userManager;
       _db = db;
     }
-
-    public async Task<ActionResult> Index()
+    
+    public ActionResult Index()
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userFlavors = _db.Flavors.Where(entry => entry.User.Id == currentUser.Id).ToList();
-      return View(userFlavors);
+      List<Flavor> model = _db.Flavors.ToList();
+      return View(model);
     }
-
+    [Authorize]
     public ActionResult Create()
     {
       ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
@@ -75,7 +73,7 @@ namespace Pierre.Controllers
     public ActionResult Details(int id)
     {
       Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
-      return ViewModels(thisFlavor);
+      return View(thisFlavor);
     }
 
     public ActionResult Delete(int id)
@@ -92,6 +90,35 @@ namespace Pierre.Controllers
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       _db.Flavors.Remove(thisFlavor);
       _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult AddTreat(int id)
+    {
+      var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
+      return View(thisFlavor);
+    }
+    [HttpPost]
+    public async Task<ActionResult> AddTreat(Flavor flavor, int TreatId)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      if (TreatId != 0)
+      {
+        _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
+      }
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> DeleteTreat(int joinId)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+      _db.FlavorTreat.Remove(joinEntry);
       return RedirectToAction("Index");
     }
   }
