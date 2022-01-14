@@ -33,13 +33,10 @@ namespace Pierre.Controllers
       ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
       return View();
     }
-
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> Create(Flavor flavor, int TreatId)
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      flavor.User = currentUser;
       _db.Flavors.Add(flavor);
       if (TreatId != 0)
       {
@@ -48,14 +45,14 @@ namespace Pierre.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
+    [Authorize]
     public ActionResult Edit(int id)
     {
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
       return View(thisFlavor);
     }
-
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> Edit(Flavor flavor, int TreatId)
     {
@@ -69,19 +66,19 @@ namespace Pierre.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
+    [Authorize]
     public ActionResult Details(int id)
     {
       Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
-
+    [Authorize]
     public ActionResult Delete(int id)
     {
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
-
+    [Authorize]
     [HttpPost, ActionName("Delete")]
     public async Task<ActionResult> DeleteConfirmed(int id)
     {
@@ -92,13 +89,14 @@ namespace Pierre.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
+    [Authorize]
     public ActionResult AddTreat(int id)
     {
       var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
       ViewBag.TreatId = new SelectList(_db.Treats, "TreatId", "TreatName");
       return View(thisFlavor);
     }
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> AddTreat(Flavor flavor, int TreatId)
     {
@@ -111,7 +109,7 @@ namespace Pierre.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> DeleteTreat(int joinId)
     {
