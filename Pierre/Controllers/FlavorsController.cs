@@ -11,7 +11,6 @@ using System.Security.Claims;
 
 namespace Pierre.Controllers
 {
-  // [Authorize]
   public class FlavorsController : Controller
   {
     private readonly PierreContext _db;
@@ -66,7 +65,10 @@ namespace Pierre.Controllers
     }
     public ActionResult Details(int id)
     {
-      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      var thisFlavor = _db.Flavors
+        .Include(flavor => flavor.JoinEntities)
+        .ThenInclude(join => join.Treat)
+        .FirstOrDefault(Flavor => Flavor.FlavorId == id);
       return View(thisFlavor);
     }
     [Authorize]
@@ -95,11 +97,16 @@ namespace Pierre.Controllers
     [HttpPost]
     public ActionResult AddTreat(Flavor flavor, int TreatId)
     {
-      if (TreatId != 0)
+      bool alreadyExists = _db.FlavorTreat.Any(flavorTreat => flavorTreat.FlavorId == flavor.FlavorId && flavorTreat.TreatId == TreatId);
+      if (TreatId != 0 )
       {
         _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
       }
       _db.SaveChanges();
+      if (alreadyExists)
+      {
+        return RedirectToAction("AddTreatError", new { id = flavor.FlavorId });
+      }
       return RedirectToAction("Index");
     }
     [Authorize]
@@ -108,7 +115,8 @@ namespace Pierre.Controllers
     {
       var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
       _db.FlavorTreat.Remove(joinEntry);
-      return RedirectToAction("Index");
+      _db.SaveChanges();
+      return RedirectToAction("Details", new { id = joinEntry.FlavorId });
     }
   }
 }
