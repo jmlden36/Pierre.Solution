@@ -120,7 +120,7 @@ namespace Pierre.Controllers
       {
         return RedirectToAction("AddFlavorError", new { id = treat.TreatId});
       }
-      return RedirectToAction("Index");
+      return RedirectToAction("Details", new { id = treat.TreatId});
     }
 
     [Authorize]

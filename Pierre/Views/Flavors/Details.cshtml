@@ -1,7 +1,3 @@
-@{
-  Layout = "_Layout";
-}
-
 @model Pierre.Models.Flavor
 
 <h2>Flavor Details</h2>
@@ -19,7 +15,7 @@ else
     @foreach(var join in Model.JoinEntities)
     {
       <li>@join.Treat.TreatName</li>
-      @using (Html.BeginForm("DeleteTreat", "Treats"))
+      @using (Html.BeginForm("DeleteTreat", "Flavors"))
       {
         @Html.Hidden("joinId", @join.FlavorTreatId)
         <input type="submit" value="Delete"/>
