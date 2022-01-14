@@ -71,5 +71,28 @@ namespace Pierre.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    public ActionResult Details(int id)
+    {
+      Flavor thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      return ViewModels(thisFlavor);
+    }
+
+    public ActionResult Delete(int id)
+    {
+      var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      return View(thisFlavor);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public async Task<ActionResult> DeleteConfirmed(int id)
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var thisFlavor = _db.Flavors.FirstOrDefault(flavor => flavor.FlavorId == id);
+      _db.Flavors.Remove(thisFlavor);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }
