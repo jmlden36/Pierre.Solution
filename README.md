@@ -24,13 +24,13 @@ _An application that lets users see all the flavors and treats at Pierre's Baker
 
 ### Application Setup
 * _Install .NET 5.0 [here](https://dotnet.microsoft.com/download/dotnet/5.0)_
-* _In your web browser navigate to [https://github.com/jmlden36/Factory.Solution.git](https://github.com/jmlden36/Factory.Solution.git)
+* _In your web browser navigate to [https://github.com/jmlden36/Pierre.Solution.git](https://github.com/jmlden36/Pierre.Solution.git)
 * _Click the green "Code" button and Download Zip _
 * _Extract the contents of the zip file to a folder on your machine_
-* _alternatively to [clone this repository](https://github.com/jmlden36/Factory.Solution.git) from Git Hub please follow these next steps_
+* _alternatively to [clone this repository](https://github.com/jmlden36/Pierre.Solution.git) from Git Hub please follow these next steps_
 * Open the terminal on your desktop
 * Once in the terminal, use it to navigate to your desktop folder
-* Once inside your desktop folder, use the command `git clone https://github.com/jmlden36/Factory.Solution.git`
+* Once inside your desktop folder, use the command `git clone https://github.com/jmlden36/Pierre.Solution.git`
 * _Open Pierre.Solution in your code editor of choice(something like Visual Studio Code)_
 * _Navigate to the Pierre Directory and type in your terminal `touch appsettings.json` and fill this new file with the following_
 ```
