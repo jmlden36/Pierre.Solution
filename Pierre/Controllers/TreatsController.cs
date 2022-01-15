@@ -123,6 +123,12 @@ namespace Pierre.Controllers
       return RedirectToAction("Details", new { id = treat.TreatId});
     }
 
+    public ActionResult AddFlavorError(int id)
+    {
+      var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
+      return View(thisTreat);
+    }
+
     [Authorize]
     [HttpPost]
     public ActionResult DeleteFlavor(int joinId)
